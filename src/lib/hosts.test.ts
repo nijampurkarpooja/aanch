@@ -23,6 +23,13 @@ describe("routeRequest", () => {
     expect(routeRequest("Admin.Localhost:3000", "/", ADMIN).area).toBe("admin");
   });
 
+  it("matches the admin host with a trailing dot", () => {
+    expect(routeRequest("admin.localhost.:3000", "/", ADMIN).area).toBe("admin");
+    expect(routeRequest("aanch-admin.vercel.app.", "/", "aanch-admin.vercel.app").area).toBe(
+      "admin",
+    );
+  });
+
   it("S27: admin paths on the store host stay inside the store", () => {
     for (const path of ["/admin", "/admin/orders", "/%61dmin", "//admin"]) {
       expect(routeRequest("localhost:3000", path, ADMIN).pathname).toBe(`/store${path}`);

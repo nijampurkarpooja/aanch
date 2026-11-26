@@ -13,6 +13,8 @@ export function routeRequest(
 ): { area: Area; pathname: string } {
   // shortcut: any host other than the admin host is the store, so Vercel previews (random hosts)
   // show the store only; add a preview admin host if admin previews are needed.
-  const area: Area = host?.toLowerCase() === adminHost ? "admin" : "store";
+  // A fully qualified name may end in a dot (`admin.example.com.`); it's the same host.
+  const normalised = host?.toLowerCase().replace(/\.(?=:\d+$|$)/, "");
+  const area: Area = normalised === adminHost ? "admin" : "store";
   return { area, pathname: pathname === "/" ? `/${area}` : `/${area}${pathname}` };
 }
