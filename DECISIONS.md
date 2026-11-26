@@ -21,3 +21,6 @@ Decisions that shape the build and aren't obvious from the docs. One entry each.
   `/store/…` and every admin-host path to `/admin/…`. *Why:* nothing to bypass with odd spellings
   (`/%61dmin`, `//admin`); a cross-host path doesn't exist. *Impact:* routes live in `app/store`
   and `app/admin`, each with its own root layout, plus a global 404.
+- **Database and functions in Singapore.** Neon has no India region; Singapore is the closest, and
+  Vercel functions run there too (`sin1`). *Why:* each page makes several queries, so app-to-DB
+  distance matters more than visitor-to-app. *Impact:* `vercel.json` pins the function region.
