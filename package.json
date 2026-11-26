@@ -11,7 +11,8 @@
     "format:check": "prettier --check .",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
+    "db:test": "bash scripts/db-test.sh"
   },
   "dependencies": {
     "next": "16.4.6",
