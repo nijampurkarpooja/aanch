@@ -57,7 +57,7 @@ New dependencies beyond this list still need your approval.
 ```
 src/
   proxy.ts               prefixes every path by host: store host → /store/…, admin host → /admin/…
-  app/store/...          storefront routes          app/admin/... admin routes (staff layout guard)
+  app/store/...          storefront routes          app/admin/... admin routes (staff checks in pages, actions, data)
   app/store/api/webhooks Razorpay webhooks          app/store/api/cron the daily job (secret-protected)
   app/global-not-found   the 404 for both hosts (each host has its own root layout)
   domain/<area>/         catalogue, stock, cart, checkout, orders, tax, invoices, claims, firings,

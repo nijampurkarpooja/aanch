@@ -50,6 +50,9 @@ Target layout ([architecture.md](docs/architecture.md), section 3). Today only `
 - Site words follow the vocabulary in [concept.md](docs/concept.md) (firings, finishes, Seconds…).
 - Markdown is not run through Prettier (`.prettierignore`): docs are wrapped by hand.
 - Database changes go forward only; undo one with a new migration.
+- Absolute URLs (emails, payment callbacks, canonical links) come from `env().STORE_HOST` or
+  `ADMIN_HOST`, never the request's Host header: any host reaches the store.
+- The proxy is routing, not auth: every admin page, action and query checks the staff session itself.
 
 ## Git
 

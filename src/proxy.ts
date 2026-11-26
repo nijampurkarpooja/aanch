@@ -17,5 +17,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   // Everything except Next's own assets and dev endpoints, which are the same on both hosts.
-  matcher: ["/((?!_next/|__nextjs|favicon.ico).*)"],
+  // `$` and the escaped dot make favicon.ico an exact name, not a prefix.
+  matcher: ["/((?!_next/|__nextjs_|favicon\\.ico$).*)"],
 };
