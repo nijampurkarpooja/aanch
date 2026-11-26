@@ -330,6 +330,21 @@ Each item is a build task with a test that must pass. IDs are referenced in the 
 | Preview (per PR) | Vercel preview | Shared Neon `preview` branch | Test keys (status check, no webhooks) | Outbox only |
 | Production demo | Vercel, `main` only, deployed after your confirmation; store and admin hosts | Neon main branch | Test keys | Allowlisted delivery |
 
+**Neon:** project `aanch` (`bold-fire-79020398`), Postgres 17, Singapore (`aws-ap-southeast-1`),
+database `aanch`, branches `main`, `preview` and `dev`. Vercel functions run in Singapore (`sin1`)
+next to it. Roles are created in SQL from [roles.sql](../src/db/roles.sql), never with Neon's role
+API (its default joins `neon_superuser`, which bypasses RLS). Each role's password is set per
+branch in the Neon console, so preview and dev never share production's. `aanch_owner` is for the
+console only; the app never connects as it.
+
+| Variable | Role | Connection | Where |
+|---|---|---|---|
+| `DATABASE_URL_STORE` | `aanch_store` | pooled | Vercel, `.env.local` |
+| `DATABASE_URL_ADMIN` | `aanch_admin` | pooled | Vercel, `.env.local` |
+| `DATABASE_URL_MIGRATE` | `aanch_migrate` | direct (not pooled) | GitHub Actions secret, `.env.local` |
+
+Each joins the schema in `src/lib/env.ts` and `.env.example` with the first code that reads it.
+
 ## 9. Riskiest unknown: speed with a nonce CSP
 
 A CSP with nonces forces every page to render per request, so catalogue pages can't be static. The
