@@ -1,0 +1,4 @@
+# Docs are hand-wrapped; Prettier would re-pad every table.
+*.md
+pnpm-lock.yaml
+.env*
