@@ -56,9 +56,10 @@ New dependencies beyond this list still need your approval.
 
 ```
 src/
-  proxy.ts               routes by host: store host → (store), admin host → (admin); 404s the other
-  app/(store)/...        storefront routes          app/(admin)/... admin routes (staff layout guard)
-  app/api/webhooks/...   Razorpay webhooks          app/api/cron/... the daily job (secret-protected)
+  proxy.ts               prefixes every path by host: store host → /store/…, admin host → /admin/…
+  app/store/...          storefront routes          app/admin/... admin routes (staff checks in pages, actions, data)
+  app/store/api/webhooks Razorpay webhooks          app/store/api/cron the daily job (secret-protected)
+  app/global-not-found   the 404 for both hosts (each host has its own root layout)
   domain/<area>/         catalogue, stock, cart, checkout, orders, tax, invoices, claims, firings,
                          discounts, email, carrier, reports: pure rules plus queries, no UI
   db/                    Drizzle schema, migrations, seed
@@ -188,7 +189,8 @@ So the Owner's changes survive and Demo admin's are undone. The reset is written
 | Local | `localhost:3000` | `admin.localhost:3000` |
 
 - Both names are attached to the **same** Vercel project. `proxy.ts` reads the host: admin
-  requests go to the `(admin)` routes, and each host returns 404 for the other's paths.
+  requests are served from `app/admin`, all others from `app/store`. Every path is prefixed,
+  never filtered, so a cross-host path (`/admin/x` on the store) simply doesn't exist there: 404.
 - The admin host sends `X-Robots-Tag: noindex` and has its own, stricter CSP.
 - A true `admin.` subdomain needs a domain you own. Free `vercel.app` names can't be nested
   (`admin.aanch.vercel.app` isn't possible), so the free setup uses a sibling name. Moving to
