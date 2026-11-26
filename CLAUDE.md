@@ -59,6 +59,8 @@ Target layout ([architecture.md](docs/architecture.md), section 3). Today only `
 - One branch and PR per feature set (`feat/m2-catalogue-admin`); fixes can be one-commit PRs.
 - Commits are logical units: each passes `pnpm check` and can be reverted on its own.
 - Never push or open a PR without the owner's say-so. Deploy only from `main`, after confirmation.
+- Once a PR is open, bind it to the session and turn on Auto-fix (CI failures, conflicts, review
+  comments). The owner asked for this on every PR.
 
 ## Traps
 
