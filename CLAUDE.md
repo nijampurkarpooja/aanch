@@ -64,6 +64,9 @@ Target layout ([architecture.md](docs/architecture.md), section 3). Today only `
   that folder (it's regenerated).
 - Local dev needs `.env.local` (copy `.env.example`): the proxy validates the hosts on every request.
 - In the sandbox, `pnpm install` fails on pnpm's store lock; the owner runs installs.
+- In the sandbox, `next dev` dies (Turbopack can't start its file watcher). To look at pages, run
+  `pnpm build`, then `next start` with `STORE_HOST`/`ADMIN_HOST` set inline. Postgres is reachable
+  over TCP (`127.0.0.1`), not its Unix socket.
 - The sandbox can't read real env files (`.env`, `.env.local`, `.env.*.local`); `.env.example`
   is readable. Prettier ignores `.env*` (it has no parser for them).
 - The demo notice appears in three places only, never twice on one screen ([concept.md](docs/concept.md), section 14).
