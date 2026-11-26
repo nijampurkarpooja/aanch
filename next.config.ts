@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  // Two root layouts (store, admin), so unmatched URLs need one 404 outside both.
+  experimental: { globalNotFound: true },
   turbopack: {
     rules: {
       "*.css": {

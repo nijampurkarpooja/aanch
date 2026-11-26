@@ -17,3 +17,7 @@ Decisions that shape the build and aren't obvious from the docs. One entry each.
   from a dedicated project Gmail. *Why:* real emails at ₹0 without an open relay or a paid domain.
   *Impact:* an outbox table with a send step, and a provider adapter (swap to Resend if a domain
   is ever added).
+- **Host routing by prefix, not by filter.** The proxy rewrites every store-host path to
+  `/store/…` and every admin-host path to `/admin/…`. *Why:* nothing to bypass with odd spellings
+  (`/%61dmin`, `//admin`); a cross-host path doesn't exist. *Impact:* routes live in `app/store`
+  and `app/admin`, each with its own root layout, plus a global 404.

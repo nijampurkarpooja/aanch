@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Aanch",
   description: "Stoneware for the Indian table, from a Bengaluru studio. A demo store.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function StoreLayout({ children }: LayoutProps<"/store">) {
   return (
     <html lang="en-IN">
       <body>{children}</body>

@@ -29,11 +29,12 @@ Later: `pnpm test:e2e`, `pnpm test:lh`, `pnpm db:test` ([testing.md](docs/testin
 
 ## Structure
 
-Target layout ([architecture.md](docs/architecture.md), section 3). Today only `src/app` and
-`src/lib` exist.
+Target layout ([architecture.md](docs/architecture.md), section 3). Today only `src/app`,
+`src/lib` and `src/proxy.ts` exist.
 
-- `src/proxy.ts`: routes by host; each host 404s the other's paths.
-- `src/app/(store)`, `src/app/(admin)`: routes for each host. `src/app/api`: webhooks, cron.
+- `src/proxy.ts`: prefixes every path by host (`/store/…` or `/admin/…`), so cross-host paths 404.
+- `src/app/store`, `src/app/admin`: each host's routes and root layout. Public URLs drop the prefix
+  (`app/store/cart` is `/cart`). Webhooks and cron live in `src/app/store/api`.
 - `src/domain/<area>`: business rules and queries, no UI. Routes and actions stay thin.
 - `src/db`: Drizzle schema, migrations, seed. `src/auth`: the two realms and permissions.
 - `src/ui`: tokens, components, motifs. `src/lib`: env, money, logging, rate limit, storage.
@@ -59,6 +60,9 @@ Target layout ([architecture.md](docs/architecture.md), section 3). Today only `
 ## Traps
 
 - `AGENTS.md` is written by `next dev`. Leave it in place and commit it.
+- After moving or deleting routes, stale types in `.next/dev/types` break `pnpm typecheck`; delete
+  that folder (it's regenerated).
+- Local dev needs `.env.local` (copy `.env.example`): the proxy validates the hosts on every request.
 - In the sandbox, `pnpm install` fails on pnpm's store lock; the owner runs installs.
 - The sandbox can't read real env files (`.env`, `.env.local`, `.env.*.local`); `.env.example`
   is readable. Prettier ignores `.env*` (it has no parser for them).

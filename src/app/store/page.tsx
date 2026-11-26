@@ -1,4 +1,4 @@
-export default function Home() {
+export default function StoreHome() {
   return (
     <main>
       <h1>Aanch</h1>
