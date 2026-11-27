@@ -25,6 +25,21 @@ describe("parseEnv", () => {
     );
   });
 
+  it("keeps a real webhook secret", () => {
+    const secret = "a".repeat(32);
+    expect(parseEnv({ ...valid, RAZORPAY_WEBHOOK_SECRET: secret }).RAZORPAY_WEBHOOK_SECRET).toBe(
+      secret,
+    );
+  });
+
+  it("treats an empty, short or example webhook secret as unset, without failing", () => {
+    for (const bad of ["", "   ", "too-short", "placeholder-webhook-secret-of-32-chars"]) {
+      expect(
+        parseEnv({ ...valid, RAZORPAY_WEBHOOK_SECRET: bad }).RAZORPAY_WEBHOOK_SECRET,
+      ).toBeUndefined();
+    }
+  });
+
   it("rejects the same host for store and admin", () => {
     expect(() => parseEnv({ ...valid, ADMIN_HOST: valid.STORE_HOST })).toThrow(/ADMIN_HOST/);
   });

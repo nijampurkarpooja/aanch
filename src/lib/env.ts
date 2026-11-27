@@ -9,6 +9,15 @@ const envSchema = z
   .object({
     STORE_HOST: host,
     ADMIN_HOST: host,
+    // Optional until payments. A bad value (empty, short, the example's) counts as unset instead of
+    // failing env(), which the proxy calls on every request: the webhook answers 503, the site stays up.
+    RAZORPAY_WEBHOOK_SECRET: z
+      .string()
+      .trim()
+      .min(32)
+      .refine((v) => !v.includes("placeholder"))
+      .optional()
+      .catch(undefined),
   })
   .refine((e) => e.STORE_HOST !== e.ADMIN_HOST, {
     message: "must differ from STORE_HOST",
