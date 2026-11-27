@@ -37,6 +37,7 @@ Target layout ([architecture.md](docs/architecture.md), section 3). Today only `
   (`app/store/cart` is `/cart`). Webhooks and cron live in `src/app/store/api`.
 - `public/store`, `public/admin`: each host's static files (`public/store/logo.svg` is `/logo.svg`
   on the store). Files in `public/` itself are unreachable: the proxy prefixes their paths too.
+  Anything in `public/admin` is public to anyone; private files never go there.
 - `src/domain/<area>`: business rules and queries, no UI. Routes and actions stay thin.
 - `src/db`: Drizzle schema, migrations, seed. `src/auth`: the two realms and permissions.
 - `src/ui`: tokens, components, motifs. `src/lib`: env, money, logging, rate limit, storage.
