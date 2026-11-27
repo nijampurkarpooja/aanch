@@ -35,6 +35,8 @@ Target layout ([architecture.md](docs/architecture.md), section 3). Today only `
 - `src/proxy.ts`: prefixes every path by host (`/store/…` or `/admin/…`), so cross-host paths 404.
 - `src/app/store`, `src/app/admin`: each host's routes and root layout. Public URLs drop the prefix
   (`app/store/cart` is `/cart`). Webhooks and cron live in `src/app/store/api`.
+- `public/store`, `public/admin`: each host's static files (`public/store/logo.svg` is `/logo.svg`
+  on the store). Files in `public/` itself are unreachable: the proxy prefixes their paths too.
 - `src/domain/<area>`: business rules and queries, no UI. Routes and actions stay thin.
 - `src/db`: Drizzle schema, migrations, seed. `src/auth`: the two realms and permissions.
 - `src/ui`: tokens, components, motifs. `src/lib`: env, money, logging, rate limit, storage.

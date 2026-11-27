@@ -26,6 +26,13 @@ describe("proxy", () => {
     expect(response.headers.get("x-robots-tag")).toBeNull();
   });
 
+  it("serves each host's static files from its own public/ folder", () => {
+    const store = request("localhost:3000", "/logo.svg");
+    const admin = request("admin.localhost:3000", "/logo.svg");
+    expect(new URL(store.headers.get("x-middleware-rewrite")!).pathname).toBe("/store/logo.svg");
+    expect(new URL(admin.headers.get("x-middleware-rewrite")!).pathname).toBe("/admin/logo.svg");
+  });
+
   it("keeps the query string", () => {
     const response = request("localhost:3000", "/shop?finish=neel");
     expect(new URL(response.headers.get("x-middleware-rewrite")!).search).toBe("?finish=neel");

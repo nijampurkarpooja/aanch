@@ -60,6 +60,7 @@ src/
   app/store/...          storefront routes          app/admin/... admin routes (staff checks in pages, actions, data)
   app/store/api/webhooks Razorpay webhooks          app/store/api/cron the daily job (secret-protected)
   app/global-not-found   the 404 for both hosts (each host has its own root layout)
+public/store/, admin/     each host's static files, served without the prefix (the proxy adds it)
   domain/<area>/         catalogue, stock, cart, checkout, orders, tax, invoices, claims, firings,
                          discounts, email, carrier, reports: pure rules plus queries, no UI
   db/                    Drizzle schema, migrations, seed
